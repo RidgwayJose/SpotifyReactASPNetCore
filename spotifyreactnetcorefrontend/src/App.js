@@ -18,7 +18,7 @@ function App() {
     return (
         <div>
             {
-                token ? <Index /> : <Player />
+                token ? <Player /> : <Login />
             }
         </div>
     ); 
