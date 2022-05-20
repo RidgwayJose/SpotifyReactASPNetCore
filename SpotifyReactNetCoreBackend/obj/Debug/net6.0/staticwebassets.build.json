@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "rhnFeyGgvzsxGvB/M/SlRaaZyHNSH1tUkENwSh2Abyw=",
+  "Source": "SpotifyReactNetCoreBackend",
+  "BasePath": "_content/SpotifyReactNetCoreBackend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
