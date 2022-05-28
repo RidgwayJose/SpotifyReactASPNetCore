@@ -14,7 +14,6 @@ namespace SpotifyReactNetCoreBackend
 {
     public class Startup
     {
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,17 +24,11 @@ namespace SpotifyReactNetCoreBackend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
+ 
+            services.AddHttpContextAccessor();
+            services.AddHttpClient<ISpotifyAccountService, SpotifyAccountService>(c => 
             {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
-                     builder =>
-                     {
-                         builder.WithOrigins("*").WithMethods("*").WithHeaders("*");
-                     });
-            });
-                services.AddHttpClient<ISpotifyAccountService, SpotifyAccountService>(c => 
-            {
-                c.BaseAddress = new Uri("https://accounts.spotify.com/api/");
+                c.BaseAddress = new Uri("https://accounts.spotify.com/");
             });
 
             services.AddHttpClient<ISpotifyService, SpotifyService>(c => 
@@ -45,6 +38,13 @@ namespace SpotifyReactNetCoreBackend
             });
 
             services.AddControllersWithViews();
+            
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,17 +60,20 @@ namespace SpotifyReactNetCoreBackend
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
-            app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

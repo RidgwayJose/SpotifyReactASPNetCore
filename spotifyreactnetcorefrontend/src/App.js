@@ -3,22 +3,27 @@ import './App.css';
 import Login from './components/Login/Login';
 import Player from './components/Player/Player';
 import Index from './components/Index/Index';
+import {getCodeFromURL} from "./SpotifyLogic"
 import {getTokenFromURL} from "./SpotifyLogic"
+import Login2 from "./components/Login/Login2"
 
 function App() {
+    const [code, setCode] = useState()
     const [token, setToken] = useState()
 
     useEffect(() => {
-        const hash = getTokenFromURL();
-        window.location.hash = ""
-        const _token = hash.access_token;
-        setToken(_token)
-        console.log("token => ", token);
+        console.log("getTokenFromURL =>", getCodeFromURL().code)
+        const search = getCodeFromURL();
+        console.log("getCodeFromURL =>", getCodeFromURL().code)
+        console.log("hash =>", search)
+        const _code = search.code;
+        setCode(_code)
     },[])
+
     return (
         <div>
             {
-                token ? <Player /> : <Login />
+                code ? <Login2/> : <Login />
             }
         </div>
     ); 

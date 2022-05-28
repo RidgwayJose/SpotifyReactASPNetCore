@@ -18,7 +18,7 @@ namespace SpotifyReactNetCoreBackend.Services
         {
             _httpClient = httpClient;
         }
-
+        /*
         public async Task<string> GetToken(string clientId, string clientSecret)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "token");
@@ -39,6 +39,31 @@ namespace SpotifyReactNetCoreBackend.Services
             var authResult = await JsonSerializer.DeserializeAsync<AuthResult>(responseStream);
 
             return authResult.access_token;
+        }
+        */
+        public async Task<string> GetToken(PostGetToken code)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/token");
+            request.Headers.Add("Authorization", code.Authorization);
+            request.Content = new FormUrlEncodedContent(new Dictionary<string, string>
+            {
+                { "code", code.Code},
+                { "grant_type",code.Grant_type},
+                { "redirect_uri", code.Redirect_uri }
+            });
+            var response = await _httpClient.SendAsync(request);
+            
+            response.EnsureSuccessStatusCode();
+            
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            var tokenResult = await JsonSerializer.DeserializeAsync<TokenResult>(responseStream);
+            /*
+            if (SaveToken == null)
+            {
+                SaveToken = postResult.access_token;
+            }
+            */
+            return tokenResult.access_token;
         }
     }
 }
