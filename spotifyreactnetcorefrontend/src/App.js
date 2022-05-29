@@ -5,26 +5,38 @@ import Player from './components/Player/Player';
 import Index from './components/Index/Index';
 import {getCodeFromURL} from "./SpotifyLogic"
 import {getTokenFromURL} from "./SpotifyLogic"
-import Login2 from "./components/Login/Login2"
+import {renderMatches, Route, Routes} from 'react-router-dom'
 
+
+const LoginRoute = () => {return(<Login/>)}
+const PlayerRoute = () => {
+    const [tokens, setTokens] = useState([])
+   
+    const showData = async () => {
+        const response = await fetch('home/gettoken')
+        const data = await response.json()
+        setTokens(data)
+    }
+        useEffect(() => {
+        showData()
+    }, [])
+        if(tokens.length != 0 ) {
+            return(
+                <div>
+                        <Player/>       
+                </div>
+            )
+        } 
+    }
+const IndexRoute = () => {return(<Index/>)}
 function App() {
-    const [code, setCode] = useState()
-    const [token, setToken] = useState()
-
-    useEffect(() => {
-        console.log("getTokenFromURL =>", getCodeFromURL().code)
-        const search = getCodeFromURL();
-        console.log("getCodeFromURL =>", getCodeFromURL().code)
-        console.log("hash =>", search)
-        const _code = search.code;
-        setCode(_code)
-    },[])
-
     return (
         <div>
-            {
-                code ? <Login2/> : <Login />
-            }
+            <Routes>
+                <Route path = '/' element={<LoginRoute />} />
+                <Route path = '/callback' element={<PlayerRoute/>}/>
+                <Route path = '/index' element={<IndexRoute />} />
+            </Routes>
         </div>
     ); 
 }

@@ -41,15 +41,30 @@ namespace SpotifyReactNetCoreBackend.Services
             return authResult.access_token;
         }
         */
-        public async Task<string> GetToken(PostGetToken code)
-        {
+        
+        public async Task<string> GetToken2(string URL, string client_ID , string clientSecret,string redirect_URI)
+        {  //string URL = HttpContext.Request.Headers.Referer.ToString();
+            string URLreduce = URL[32..]; //Substring
+            string[] parameters = URLreduce.Split('&');
+            string[] extracCode = parameters[0].Split('=');
+            string[] extractStatus = parameters[1].Split('=');
+            string code = extracCode[1];
+            string state = extractStatus[1];
+            PostGetToken TokenRequest = new();
+            {
+                TokenRequest.Grant_type = "authorization_code";
+                TokenRequest.Code = code;
+                TokenRequest.Redirect_uri = redirect_URI;
+                TokenRequest.Authorization = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(client_ID + ":" + clientSecret));
+            }
+
             var request = new HttpRequestMessage(HttpMethod.Post, "api/token");
-            request.Headers.Add("Authorization", code.Authorization);
+            request.Headers.Add("Authorization", TokenRequest.Authorization);
             request.Content = new FormUrlEncodedContent(new Dictionary<string, string>
             {
-                { "code", code.Code},
-                { "grant_type",code.Grant_type},
-                { "redirect_uri", code.Redirect_uri }
+                { "code", TokenRequest.Code},
+                { "grant_type",TokenRequest.Grant_type},
+                { "redirect_uri", TokenRequest.Redirect_uri }
             });
             var response = await _httpClient.SendAsync(request);
             

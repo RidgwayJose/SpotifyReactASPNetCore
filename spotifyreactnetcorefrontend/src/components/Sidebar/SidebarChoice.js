@@ -1,3 +1,4 @@
+import Index from "../Index/Index"
 import { Choices } from "./Styles"
 
 const SidebarChoice = ({title, Icon}) => {
@@ -7,7 +8,7 @@ const SidebarChoice = ({title, Icon}) => {
         Icon && <Icon/> 
       }
       {
-        Icon ?<h4>{title}</h4>: <h5>{title}</h5>
+        Icon ?<h4>{title}</h4>: <a href="index"><h5>{title}</h5></a>
       }
     </Choices>
   )

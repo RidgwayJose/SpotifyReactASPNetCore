@@ -22,19 +22,93 @@ namespace SpotifyReactNetCoreBackend.Controllers
 
         private readonly ISpotifyAccountService _spotifyAccountService;
         private readonly IConfiguration _configuration;
-        private readonly ISpotifyService _spotifyService;
+        //private readonly ISpotifyService _spotifyService;
 
         public HomeController(
             ISpotifyAccountService spotifyAccountService,
-            IConfiguration configuration,
-            ISpotifyService spotifyService)
+            IConfiguration configuration)
+            //ISpotifyService spotifyService)
         {
             _spotifyAccountService = spotifyAccountService;
             _configuration = configuration;
-            _spotifyService = spotifyService;;
+           // _spotifyService = spotifyService;;
         }
+        static string SaveCode { set; get; }
         static string SaveToken { set; get; }
-        
+
+        public string Login()
+        {
+            var state = 12345;
+            var endpoint = "https://accounts.spotify.com/authorize";
+            var clientID = _configuration["Spotify:ClientId"];
+            var redirectUri = _configuration["Spotify:Redirect_URI"];
+            string[] scopes = {Scopes.UserReadEmail,
+                               Scopes.UserReadPrivate,
+                               Scopes.UserReadCurrentlyPlaying,
+                               Scopes.UserReadRecentlyPlayed,
+                               Scopes.UserReadPlaybackState,
+                               Scopes.UserTopRead,
+                               Scopes.UserModifyPlaybackState,
+                               Scopes.UserLibraryRead,
+                               Scopes.PlaylistReadPrivate};
+
+
+            var loginURL = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{endpoint}?client_id={clientID}&response_type=code&redirect_uri={redirectUri}&state={state}&scope={string.Join("%20", scopes)}&show_dialog=true"));
+            string strJson = JsonSerializer.Serialize(loginURL);
+            return strJson;
+        }
+
+        public PostGetToken GetCode()
+        {
+            string URL = HttpContext.Request.Headers.Referer.ToString();
+            string URLreduce = URL[32..]; //Substring
+            string[] parameters = URLreduce.Split('&');
+            string[] extracCode = parameters[0].Split('=');
+            string[] extractStatus = parameters[1].Split('=');
+            string code = extracCode[1];
+            string state = extractStatus[1];
+            PostGetToken postGetToken = new();
+            {
+                postGetToken.Grant_type = "authorization_code";
+                postGetToken.Code = code;
+                postGetToken.Redirect_uri = _configuration["Spotify:Redirect_URI"];
+                postGetToken.Authorization = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(_configuration["Spotify:ClientId"] + ":" + _configuration["Spotify:ClientSecret"]));
+            }
+            return postGetToken;
+        }
+
+        public async Task<string> GetToken()
+        {
+            var atrib = GetCode();
+
+            if (atrib.Code != SaveCode)
+            {
+                SaveCode = atrib.Code;
+                var client = new HttpClient();
+                var request = new HttpRequestMessage();
+                var formList = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("code", atrib.Code),
+                new KeyValuePair<string, string>("grant_type",atrib.Grant_type),
+                new KeyValuePair<string, string>("redirect_uri", atrib.Redirect_uri)
+            };
+                request.Content = new FormUrlEncodedContent(formList);
+                request.RequestUri = new Uri("https://accounts.spotify.com/api/token");
+                request.Method = HttpMethod.Post;
+                request.Headers.Add("Authorization", atrib.Authorization);
+                var response = await client.SendAsync(request);
+                var result = await response.Content.ReadAsStringAsync();
+                var postResult = JsonSerializer.Deserialize<TokenResult>(result);
+                if (SaveToken == null)
+                {
+                    SaveToken = postResult.access_token;
+                }
+            }
+            string jsonSaveToken = JsonSerializer.Serialize("TokenObtained");
+            return jsonSaveToken;
+        }
+
+
         public async Task<IActionResult> Index()
         {
             var newReleases = await GetNewReleases();
@@ -55,6 +129,148 @@ namespace SpotifyReactNetCoreBackend.Controllers
             string jsonString = JsonSerializer.Serialize(newRecentlyPlayedTracks);
             return Ok(jsonString);
         }
+        public async Task<IActionResult> Index4()
+        {
+            var newCurrentlyPlayingTrack = await GetCurrentlyPlayingTrack();
+            string jsonString = JsonSerializer.Serialize(newCurrentlyPlayingTrack);
+            return Ok(jsonString);
+        }
+
+        public async Task<IActionResult> Index5()
+        {
+            var newLogin = await _spotifyAccountService.GetToken2(
+                HttpContext.Request.Headers.Referer.ToString(),
+                _configuration["Spotify:ClientId"],
+                _configuration["Spotify:ClientSecret"],
+                _configuration["Spotify:Redirect_URI"]
+                );
+            string jsonString = JsonSerializer.Serialize(newLogin);
+            return Ok(jsonString);
+        }
+
+        public async Task<IEnumerable<Release>> GetNewReleases()
+        {
+            var tokenResult = SaveToken;
+            Console.WriteLine(tokenResult);
+            var client = new HttpClient();
+            var request = new HttpRequestMessage();
+            request.RequestUri = new Uri("https://api.spotify.com/v1/browse/new-releases?country=pe");
+            request.Method = HttpMethod.Get;
+
+            request.Headers.Add("Authorization", "Bearer " + tokenResult);
+            var response = await client.SendAsync(request);
+            var responseStream = await response.Content.ReadAsStringAsync();
+            var responseObject = JsonSerializer.Deserialize<GetNewReleaseResult>(responseStream);
+            var item = responseObject.albums.items;
+            return responseObject?.albums?.items.Select(i => new Release
+            {
+                Name = i.name,
+                Date = i.release_date,
+                ImageUrl = i.images.FirstOrDefault().url,
+                Link = i.external_urls.spotify,
+                Artists = string.Join(",", i.artists.Select(i => i.name))
+            }
+            );
+        }
+
+        public async Task<string> GetUserID()
+        {
+            var tokenResult = SaveToken;
+            Console.WriteLine(tokenResult);
+            var client = new HttpClient();
+            var request = new HttpRequestMessage();
+            request.RequestUri = new Uri("https://api.spotify.com/v1/me");
+            request.Method = HttpMethod.Get;
+            request.Headers.Add("Authorization", "Bearer " + tokenResult);
+            var response = await client.SendAsync(request);
+            var responseStream = await response.Content.ReadAsStringAsync();
+            var responseObject = JsonSerializer.Deserialize<GetUser>(responseStream);
+            var UserId = responseObject.id;
+            string jsonString = JsonSerializer.Serialize(UserId);
+            return jsonString;
+        }
+
+        public async Task<IEnumerable<UserPlaylists>> GetUserPlaylist()
+        //image,musica, artista
+        {
+            var tokenResult = SaveToken;
+            Console.WriteLine(tokenResult);
+            var client = new HttpClient();
+            var request = new HttpRequestMessage();
+            request.RequestUri = new Uri("https://api.spotify.com/v1/me/playlists");
+            request.Method = HttpMethod.Get;
+
+            request.Headers.Add("Authorization", "Bearer " + tokenResult);
+            var response = await client.SendAsync(request);
+            var responseStream = await response.Content.ReadAsStringAsync();
+            var responseObject = JsonSerializer.Deserialize<GetUserPlaylist>(responseStream);
+            var item = responseObject.items;
+            return responseObject?.items.Select(i => new UserPlaylists
+            {
+                Name = i.name,
+                URL = i.external_urls.spotify,
+                ImageUrl = i.images.FirstOrDefault().url,
+                Description = i.description
+            }
+            );
+        }
+
+
+
+        public async Task<IEnumerable<RecentlyPlayedTracks>> GetRecentlyPlayedTracks()
+        //image,musica, artista
+        {
+            var tokenResult = SaveToken;
+            Console.WriteLine(tokenResult);
+            var client = new HttpClient();
+            var request = new HttpRequestMessage();
+            request.RequestUri = new Uri("https://api.spotify.com/v1/me/player/recently-played");
+            request.Method = HttpMethod.Get;
+
+            request.Headers.Add("Authorization", "Bearer " + tokenResult);
+            var response = await client.SendAsync(request);
+            var responseStream = await response.Content.ReadAsStringAsync();
+            var responseObject = JsonSerializer.Deserialize<GetRecentlyPlayedTracksResult>(responseStream);
+            var item = responseObject.items;
+            return responseObject?.items.Select(i => new RecentlyPlayedTracks
+            {
+                Name = i.track.name,
+                Album = i.track.album.name,
+                Album_Release_date = i.track.album.release_date,
+                ImageUrl = i.track.album.images.FirstOrDefault().url,
+                Url = i.track.external_urls.spotify,
+                Artists = string.Join(",", i.track.artists.Select(i => i.name))
+            }
+            );
+        }
+
+        
+        public async Task<CurrentlyPlayingTrack> GetCurrentlyPlayingTrack()
+        //image,musica, artista
+        {
+            var tokenResult = SaveToken;
+            Console.WriteLine(tokenResult);
+            var client = new HttpClient();
+            var request = new HttpRequestMessage();
+            request.RequestUri = new Uri("https://api.spotify.com/v1/me/player/currently-playing");
+            request.Method = HttpMethod.Get;
+
+            request.Headers.Add("Authorization", "Bearer " + tokenResult);
+            var response = await client.SendAsync(request);
+            var responseStream = await response.Content.ReadAsStringAsync();
+            var responseObject = JsonSerializer.Deserialize<GetCurrentlyPlayingTrackResult>(responseStream);
+            var item = responseObject.item;
+            var currentlytrack = new CurrentlyPlayingTrack
+            {
+                Name = item.name,
+                Album = item.album.name,
+                ImageUrl = item.album.images.FirstOrDefault().url,
+                Url = item.external_urls.spotify,
+                Artists = string.Join(",", item.artists.Select(i => i.name))
+            };
+            return currentlytrack;
+        }
+
 
         /*
         private async Task<IEnumerable<Release>> GetReleases()
@@ -76,38 +292,7 @@ namespace SpotifyReactNetCoreBackend.Controllers
         }
         */
 
-        public string Login()
-        {
-            var state = 12345;
-            var endpoint = "https://accounts.spotify.com/authorize";
-            var clientID = _configuration["Spotify:ClientId"];
-            var redirectUri = _configuration["Spotify:Redirect_URI"];
-            string[] scopes = {Scopes.UserReadEmail,
-                               Scopes.UserReadPrivate,
-                               Scopes.UserReadCurrentlyPlaying,
-                               Scopes.UserReadRecentlyPlayed,
-                               Scopes.UserReadPlaybackState,
-                               Scopes.UserTopRead,
-                               Scopes.UserModifyPlaybackState,
-                               Scopes.UserLibraryRead,
-                               Scopes.PlaylistReadPrivate};
-            /*
-            var endpoint = "https://accounts.spotify.com/authorize";
-            var clientID = "1bdda459e75f4754863c0527eaa41b5b";
-            var redirectUri = "http://localhost:3001/";
-            string[] scopes = { "user-read-currently-playing", "user-read-recently-played", "user-read-playback-state", "user-top-read", "user-modify-playback-state"};
-            string prueba = string.Join("20%",scopes);
-            */
 
-            var loginURL = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{endpoint}?client_id={clientID}&response_type=code&redirect_uri={redirectUri}&state={state}&scope={string.Join("%20", scopes)}&show_dialog=true"));
-
-
-
-            //Console.WriteLine(loginURL);
-            string strJson = JsonSerializer.Serialize(loginURL);
-            //Console.WriteLine(strJson);
-            return strJson;
-        }
         /*
         public async Task<string> LoginHTTP()
         {
@@ -138,160 +323,10 @@ namespace SpotifyReactNetCoreBackend.Controllers
         }
         */
 
-        public PostGetToken GetCode()
-        {
-            string URL = HttpContext.Request.Headers.Referer.ToString();
-            string URLreduce = URL[32..]; //Substring
-            string[] parameters = URLreduce.Split('&');
-            string[] extracCode = parameters[0].Split('=');
-            string[] extractStatus = parameters[1].Split('=');
-            string code = extracCode[1];
-            string state = extractStatus[1];
-            PostGetToken postGetToken = new();
-            {
-                postGetToken.Grant_type = "authorization_code";
-                postGetToken.Code = code;
-                postGetToken.Redirect_uri = _configuration["Spotify:Redirect_URI"];
-                postGetToken.Authorization = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(_configuration["Spotify:ClientId"] + ":" + _configuration["Spotify:ClientSecret"]));
-            }
-            return postGetToken;
-        }
-
-        public async Task<string> GetToken()
-        {
-            var atrib = GetCode();
-            var client = new HttpClient();
-            var request = new HttpRequestMessage();
-            var formList =  new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("code", atrib.Code),
-                new KeyValuePair<string, string>("grant_type",atrib.Grant_type),
-                new KeyValuePair<string, string>("redirect_uri", atrib.Redirect_uri)
-            };
-            request.Content = new FormUrlEncodedContent(formList);
-            request.RequestUri = new Uri("https://accounts.spotify.com/api/token");
-            request.Method = HttpMethod.Post;
-            request.Headers.Add("Authorization", atrib.Authorization);
-            var response = await client.SendAsync(request);
-            var result = await response.Content.ReadAsStringAsync();
-            var postResult = JsonSerializer.Deserialize<TokenResult>(result);
-            if (SaveToken == null)
-            {
-                SaveToken = postResult.access_token;
-            }
-            return postResult.access_token; 
-            }
-        
-        public async Task<IEnumerable<Release>> GetNewReleases()
-        {
-            if (SaveToken == null)
-            {
-                await GetToken();
-            }
-            var tokenResult = SaveToken;
-            Console.WriteLine(tokenResult);
-            var client = new HttpClient();
-            var request = new HttpRequestMessage();
-            request.RequestUri = new Uri("https://api.spotify.com/v1/browse/new-releases?country=pe");
-            request.Method = HttpMethod.Get;
-
-            request.Headers.Add("Authorization", "Bearer " + tokenResult);
-            var response = await client.SendAsync(request);
-            var responseStream = await response.Content.ReadAsStringAsync();
-            var responseObject  = JsonSerializer.Deserialize<GetNewReleaseResult>(responseStream);
-            var item = responseObject.albums.items;
-            return responseObject?.albums?.items.Select(i => new Release
-            {
-                Name = i.name,
-                Date = i.release_date,
-                ImageUrl = i.images.FirstOrDefault().url,
-                Link = i.external_urls.spotify,
-                Artists = string.Join(",", i.artists.Select(i => i.name))
-            }
-            );
-        }
-
-        public async Task<string> GetUserID()
-        {
-            if (SaveToken == null)
-            {
-                await GetToken();
-            }
-            var tokenResult = SaveToken;
-            Console.WriteLine(tokenResult);
-            var client = new HttpClient();
-            var request = new HttpRequestMessage();
-            request.RequestUri = new Uri("https://api.spotify.com/v1/me");
-            request.Method = HttpMethod.Get;
-            request.Headers.Add("Authorization", "Bearer " + tokenResult);
-            var response = await client.SendAsync(request);
-            var responseStream = await response.Content.ReadAsStringAsync();
-            var responseObject = JsonSerializer.Deserialize<GetUser>(responseStream);
-            var UserId = responseObject.id;
-            return UserId;
-        }
-
-        public async Task<IEnumerable<UserPlaylists>> GetUserPlaylist()
-        //image,musica, artista
-        {
-            if (SaveToken == null)
-            {
-                await GetToken();
-            }
-            var tokenResult = SaveToken;
-            Console.WriteLine(tokenResult);
-            var client = new HttpClient();
-            var request = new HttpRequestMessage();
-            request.RequestUri = new Uri("https://api.spotify.com/v1/me/playlists");
-            request.Method = HttpMethod.Get;
-
-            request.Headers.Add("Authorization", "Bearer " + tokenResult);
-            var response = await client.SendAsync(request);
-            var responseStream = await response.Content.ReadAsStringAsync();
-            var responseObject = JsonSerializer.Deserialize<GetUserPlaylist>(responseStream);
-            var item = responseObject.items;
-            return responseObject?.items.Select(i => new UserPlaylists
-            {
-                Name = i.name,
-                URL = i.external_urls.spotify,
-                ImageUrl = i.images.FirstOrDefault().url,
-                Description = i.description
-            }
-            );
-        }
 
 
-        
-        public async Task<IEnumerable<RecentlyPlayedTracks>> GetRecentlyPlayedTracks()
-        //image,musica, artista
-        {
-            if (SaveToken == null)
-            {
-                await GetToken();
-            }
-            var tokenResult = SaveToken;
-            Console.WriteLine(tokenResult);
-            var client = new HttpClient();
-            var request = new HttpRequestMessage();
-            request.RequestUri = new Uri("https://api.spotify.com/v1/me/player/recently-played");
-            request.Method = HttpMethod.Get;
 
-            request.Headers.Add("Authorization", "Bearer " + tokenResult);
-            var response = await client.SendAsync(request);
-            var responseStream = await response.Content.ReadAsStringAsync();
-            var responseObject = JsonSerializer.Deserialize<GetRecentlyPlayedTracksResult>(responseStream);
-            var item = responseObject.items;
-            return responseObject?.items.Select(i => new RecentlyPlayedTracks
-            {
-                Name = i.track.name,
-                Album = i.track.album.name,
-                Album_Release_date = i.track.album.release_date,
-                ImageUrl = i.track.album.images.FirstOrDefault().url,
-                Url = i.track.external_urls.spotify,
-                Artists = string.Join(",", i.track.artists.Select(i => i.name))
-            }
-            );
-        }
+
 
     }
 }
