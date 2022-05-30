@@ -36,7 +36,7 @@ const Footer = () => {
         <FooterLeft>
             <img src={tracks.ImageUrl} alt="cover" />
             <div>
-              <h4>{tracks.Name}</h4>
+              <h6>{tracks.Name}</h6>
               <p>{tracks.Artists}</p>
             </div>
         </FooterLeft>

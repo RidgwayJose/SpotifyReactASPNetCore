@@ -2,7 +2,22 @@ import styled from "styled-components"
 
 const BodyContainer = styled.div`
 flex: 0.8;
-
+text-align:center;
+& img {
+  width:150px;
+  hidth:50px;
+  border:1px solid black;
+  border-radius:10px;
+}
+& thead {
+  background-color: black;
+}
+& tbody {
+  background-color:#252525;
+}
+& td {
+  color:white;
+}
 `
 const HeaderContainer = styled.div`
 display: flex;

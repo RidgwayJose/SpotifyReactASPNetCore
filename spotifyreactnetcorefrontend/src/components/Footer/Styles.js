@@ -3,7 +3,7 @@ import styled from "styled-components";
 const FooterContainer = styled.div`
 position: fixed;
 bottom: 0;
-height: 70px;
+height: 80px;
 width: 100%;
 background-color: #181818;
 color: #fff;
@@ -17,10 +17,12 @@ flex: 0.3;
 display: flex;
 align-items: center;
 max-width: 300px;
+
 & img {
   height: 60px;
   width: 60px;
-  margin-right: 20px;
+  margin-right:10px;
+  margin-left:10px;
   object-fit: contain;
 }
 
