@@ -25,3 +25,30 @@ E:\User\Documents\ReactASPNETCORE\SpotifyReactNetCore\SpotifyReactNetCoreBackend
 E:\User\Documents\ReactASPNETCORE\SpotifyReactNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\SpotifyReactNetCoreBackend.pdb
 E:\User\Documents\ReactASPNETCORE\SpotifyReactNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\SpotifyReactNetCoreBackend.genruntimeconfig.cache
 E:\User\Documents\ReactASPNETCORE\SpotifyReactNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\ref\SpotifyReactNetCoreBackend.dll
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\bin\Debug\net6.0\appsettings.json
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\bin\Debug\net6.0\SpotifyReactNetCoreBackend.exe
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\bin\Debug\net6.0\SpotifyReactNetCoreBackend.deps.json
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\bin\Debug\net6.0\SpotifyReactNetCoreBackend.runtimeconfig.json
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\bin\Debug\net6.0\SpotifyReactNetCoreBackend.dll
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\bin\Debug\net6.0\SpotifyReactNetCoreBackend.pdb
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\SpotifyReactNetCoreBackend.csproj.AssemblyReference.cache
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\SpotifyReactNetCoreBackend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\SpotifyReactNetCoreBackend.AssemblyInfoInputs.cache
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\SpotifyReactNetCoreBackend.AssemblyInfo.cs
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\SpotifyReactNetCoreBackend.csproj.CoreCompileInputs.cache
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\SpotifyReactNetCoreBackend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\SpotifyReactNetCoreBackend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\scopedcss\bundle\SpotifyReactNetCoreBackend.styles.css
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\SpotifyReactNetCoreBackend.csproj.CopyComplete
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\SpotifyReactNetCoreBackend.dll
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\refint\SpotifyReactNetCoreBackend.dll
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\SpotifyReactNetCoreBackend.pdb
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\SpotifyReactNetCoreBackend.genruntimeconfig.cache
+C:\Users\maria\OneDrive\Escritorio\Ac.D\la carpeta\web api spotify react\SpotifyReactASPNetCore\SpotifyReactNetCoreBackend\obj\Debug\net6.0\ref\SpotifyReactNetCoreBackend.dll

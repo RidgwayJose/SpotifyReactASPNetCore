@@ -6,6 +6,7 @@ import Index from './components/Index/Index';
 import {getCodeFromURL} from "./SpotifyLogic"
 import {getTokenFromURL} from "./SpotifyLogic"
 import {Route, Routes, Navigate} from 'react-router-dom'
+import RecienteEsc from "./components/extrasp/RecienteEsc"
 
 
 const LoginRoute = () => {return(<Login/>)}
@@ -23,13 +24,16 @@ const AuthRoute = () => {
         if(tokens.length != 0 ) {
             return(
                 <div>
-                        <Navigate to="/player"/>       
+                        <Navigate to="/Player"/>
                 </div>
             )
         } 
     }
 const PlayerRoute = () => {return(<Player/>)}
 const IndexRoute = () => {return(<Index/>)}
+
+const RecienteRoute = () => {return(<RecienteEsc/>)}
+
 function App() {
     return (
         <div>
@@ -38,6 +42,7 @@ function App() {
                 <Route path = '/callback' element={<AuthRoute/>}/>
                 <Route path = '/player' element={<PlayerRoute />}/>
                 <Route path = '/index' element={<IndexRoute />} />
+                <Route path = '/hola' element={<RecienteRoute/>}/>
             </Routes>
         </div>
     ); 

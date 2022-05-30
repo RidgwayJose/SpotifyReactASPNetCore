@@ -7,6 +7,8 @@ height: 100vh;
 background-color: #000;
 min-width: 260px;
 color: #fff;
+top:0;
+position:sticky;
 & img{
   height: 70px;
   padding: 10px;
