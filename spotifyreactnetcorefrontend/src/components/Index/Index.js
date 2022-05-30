@@ -7,7 +7,7 @@ const Index = () => {
     //funcion para traer los datos de la Api
 
     const showData = async () => {
-        const response = await fetch('home/index')
+        const response = await fetch('home/followedartists')
         const data = await response.json()
         setUsers(data)
         console.log(fetch('home/index'))
