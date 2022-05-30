@@ -38,6 +38,7 @@ namespace SpotifyReactNetCoreBackend.Controllers
 
         public string Login()
         {
+            SaveToken = null;
             var state = 12345;
             var endpoint = "https://accounts.spotify.com/authorize";
             var clientID = _configuration["Spotify:ClientId"];
@@ -53,61 +54,29 @@ namespace SpotifyReactNetCoreBackend.Controllers
                                Scopes.PlaylistReadPrivate};
 
 
-            var loginURL = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{endpoint}?client_id={clientID}&response_type=code&redirect_uri={redirectUri}&state={state}&scope={string.Join("%20", scopes)}&show_dialog=true"));
+            var loginURL = Convert.ToBase64String(Encoding.UTF8.GetBytes(
+                $"{endpoint}?client_id={clientID}" +
+                $"&response_type=code" +
+                $"&redirect_uri={redirectUri}" +
+                $"&state={state}" +
+                $"&scope={string.Join("%20", scopes)}" +
+                $"&show_dialog=true"));
+            
             string strJson = JsonSerializer.Serialize(loginURL);
             return strJson;
         }
-
-        public PostGetToken GetCode()
+        public async Task<IActionResult> GetToken()
         {
-            string URL = HttpContext.Request.Headers.Referer.ToString();
-            string URLreduce = URL[32..]; //Substring
-            string[] parameters = URLreduce.Split('&');
-            string[] extracCode = parameters[0].Split('=');
-            string[] extractStatus = parameters[1].Split('=');
-            string code = extracCode[1];
-            string state = extractStatus[1];
-            PostGetToken postGetToken = new();
-            {
-                postGetToken.Grant_type = "authorization_code";
-                postGetToken.Code = code;
-                postGetToken.Redirect_uri = _configuration["Spotify:Redirect_URI"];
-                postGetToken.Authorization = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(_configuration["Spotify:ClientId"] + ":" + _configuration["Spotify:ClientSecret"]));
-            }
-            return postGetToken;
+            var newLogin = await _spotifyAccountService.TokenRequest(
+                HttpContext.Request.Headers.Referer.ToString(),
+                _configuration["Spotify:ClientId"],
+                _configuration["Spotify:ClientSecret"],
+                _configuration["Spotify:Redirect_URI"]
+                );
+            SaveToken = newLogin;
+            string jsonString = JsonSerializer.Serialize("TokenObtenido");
+            return Ok(jsonString);
         }
-
-        public async Task<string> GetToken()
-        {
-            var atrib = GetCode();
-
-            if (atrib.Code != SaveCode)
-            {
-                SaveCode = atrib.Code;
-                var client = new HttpClient();
-                var request = new HttpRequestMessage();
-                var formList = new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("code", atrib.Code),
-                new KeyValuePair<string, string>("grant_type",atrib.Grant_type),
-                new KeyValuePair<string, string>("redirect_uri", atrib.Redirect_uri)
-            };
-                request.Content = new FormUrlEncodedContent(formList);
-                request.RequestUri = new Uri("https://accounts.spotify.com/api/token");
-                request.Method = HttpMethod.Post;
-                request.Headers.Add("Authorization", atrib.Authorization);
-                var response = await client.SendAsync(request);
-                var result = await response.Content.ReadAsStringAsync();
-                var postResult = JsonSerializer.Deserialize<TokenResult>(result);
-                if (SaveToken == null)
-                {
-                    SaveToken = postResult.access_token;
-                }
-            }
-            string jsonSaveToken = JsonSerializer.Serialize("TokenObtained");
-            return jsonSaveToken;
-        }
-
 
         public async Task<IActionResult> Index()
         {
@@ -133,20 +102,11 @@ namespace SpotifyReactNetCoreBackend.Controllers
         {
             var newCurrentlyPlayingTrack = await GetCurrentlyPlayingTrack();
             string jsonString = JsonSerializer.Serialize(newCurrentlyPlayingTrack);
+            Console.WriteLine("repitomusicaactual");
             return Ok(jsonString);
         }
 
-        public async Task<IActionResult> Index5()
-        {
-            var newLogin = await _spotifyAccountService.GetToken2(
-                HttpContext.Request.Headers.Referer.ToString(),
-                _configuration["Spotify:ClientId"],
-                _configuration["Spotify:ClientSecret"],
-                _configuration["Spotify:Redirect_URI"]
-                );
-            string jsonString = JsonSerializer.Serialize(newLogin);
-            return Ok(jsonString);
-        }
+       
 
         public async Task<IEnumerable<Release>> GetNewReleases()
         {
@@ -176,7 +136,7 @@ namespace SpotifyReactNetCoreBackend.Controllers
         public async Task<string> GetUserID()
         {
             var tokenResult = SaveToken;
-            Console.WriteLine(tokenResult);
+            Console.WriteLine("repitoID");
             var client = new HttpClient();
             var request = new HttpRequestMessage();
             request.RequestUri = new Uri("https://api.spotify.com/v1/me");
@@ -221,7 +181,7 @@ namespace SpotifyReactNetCoreBackend.Controllers
         //image,musica, artista
         {
             var tokenResult = SaveToken;
-            Console.WriteLine(tokenResult);
+            //Console.WriteLine(tokenResult);
             var client = new HttpClient();
             var request = new HttpRequestMessage();
             request.RequestUri = new Uri("https://api.spotify.com/v1/me/player/recently-played");
@@ -249,7 +209,7 @@ namespace SpotifyReactNetCoreBackend.Controllers
         //image,musica, artista
         {
             var tokenResult = SaveToken;
-            Console.WriteLine(tokenResult);
+            //Console.WriteLine(tokenResult);
             var client = new HttpClient();
             var request = new HttpRequestMessage();
             request.RequestUri = new Uri("https://api.spotify.com/v1/me/player/currently-playing");

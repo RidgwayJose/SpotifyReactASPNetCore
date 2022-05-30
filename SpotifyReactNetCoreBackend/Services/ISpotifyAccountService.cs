@@ -8,6 +8,6 @@ namespace SpotifyReactNetCoreBackend.Services
 {
     public interface ISpotifyAccountService
     {
-        Task<string> GetToken2(string url, string client_ID, string clientSecret, string redirect_URI);
+        Task<string> TokenRequest(string url, string client_ID, string clientSecret, string redirect_URI);
     }
 }

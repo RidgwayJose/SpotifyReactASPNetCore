@@ -21,8 +21,6 @@ const Footer = () => {
         const response = await fetch('home/index4')
         const data = await response.json()
         setTracks(data)
-        console.log("lista json=>",fetch('home/index4'))
-        console.log("datos =>",data)
     }
     //showData() => {Bucle de datos}
 

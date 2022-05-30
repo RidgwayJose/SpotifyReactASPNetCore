@@ -156,10 +156,11 @@ const LoginPassURL = () => {
             const data = Buffer.from(encode, "base64").toString()
             setLoginURL(data)
         }
-       showData()
+       //showData()
         
         useEffect(() => {
-        },[] )
+        showData()
+        },[])
         return (
             <LoginContainer>
             <img src="https://1000logos.net/wp-content/uploads/2017/08/Spotify-symbol.jpg" alt="logo" />
