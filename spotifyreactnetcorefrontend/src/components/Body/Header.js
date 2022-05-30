@@ -1,4 +1,4 @@
-import { HeaderContainer, HeaderLeft, HeaderRight } from "./Styles"
+import { HeaderContainer, HeaderLeft, HeaderRight,Tittle } from "./Styles"
 import SearchIcon from "@mui/icons-material/Search"
 import { Avatar } from "@mui/material"
 import {useState, useEffect} from 'react'
@@ -28,7 +28,7 @@ const Header = () => {
         </HeaderLeft>
         <HeaderRight>
         <Avatar/>
-          <h4>{users}</h4>  
+          <Tittle>{users}</Tittle>  
           </HeaderRight>
     </HeaderContainer>
   )

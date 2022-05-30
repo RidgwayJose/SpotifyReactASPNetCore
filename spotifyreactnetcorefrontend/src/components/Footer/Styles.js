@@ -13,11 +13,11 @@ justify-content: space-between;
 
 `
 const FooterLeft = styled.div`
-flex: 0.3;
+flex: 0.5;
 display: flex;
+max-width:450px;
 align-items: center;
-max-width: 300px;
-
+vertical-align: middle;
 & img {
   height: 60px;
   width: 60px;
@@ -25,16 +25,13 @@ max-width: 300px;
   margin-left:10px;
   object-fit: contain;
 }
-
-
 `
 
 const FooterCenter = styled.div`
-flex: 0.4;
+flex: 0.3;
 display: flex;
 align-items: center;
 justify-content: space-between;
-max-width: 300px;
 
 
 `
@@ -48,8 +45,8 @@ margin-right: 35px;
 & .MuiSlider-root {
   color: #00ff00;
 }
-
-
 `
+
+
 
 export {FooterContainer, FooterLeft, FooterRight, FooterCenter}

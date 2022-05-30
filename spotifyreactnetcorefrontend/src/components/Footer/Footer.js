@@ -1,5 +1,5 @@
 import React from 'react'
-import { FooterContainer, FooterLeft, FooterRight, FooterCenter } from './Styles'
+import { FooterContainer, FooterLeft, FooterRight, FooterCenter,DIV10} from './Styles'
 import ShuffleIcon from '@mui/icons-material/Shuffle'
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
@@ -9,6 +9,7 @@ import PlaylistPlay from '@mui/icons-material/PlaylistPlay'
 import VolumeDownIcon from '@mui/icons-material/VolumeDown'
 import { Grid, Slider } from '@mui/material'
 import {useState, useEffect} from 'react'
+import Typography from '@mui/material/Typography';
 
 
 const Footer = () => {
@@ -36,9 +37,11 @@ const Footer = () => {
         <FooterLeft>
             <img src={tracks.ImageUrl} alt="cover" />
             <div>
-              <h6>{tracks.Name}</h6>
-              <p>{tracks.Artists}</p>
+              <Typography gutterBottom variant="h7" component="marquee">{tracks.Name}</Typography>
+              {tracks.Artists}
             </div>
+              
+            
         </FooterLeft>
         <FooterCenter>
             <ShuffleIcon/>

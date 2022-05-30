@@ -2,42 +2,39 @@ import styled from "styled-components"
 
 const BodyContainer = styled.div`
 flex: 0.8;
-text-align:center;
+
+background-color: #121212;
+margin-top:5%;
+margin-bottom:5%;
 & img {
-  width:150px;
-  hidth:50px;
   border:1px solid black;
   border-radius:10px;
-}
-& thead {
-  background-color: black;
-}
-& tbody {
-  background-color:#252525;
-}
-& td {
-  color:white;
-}
 `
+
 const HeaderContainer = styled.div`
 display: flex;
+height:7%;
+width:80%;
+top:0;
+position:fixed;
+z-index:1;
 justify-content: space-between;
+background-color: #0C0C0C;
 margin-bottom:35px;
 
 `
 const HeaderLeft = styled.div`
 display: flex;
+width:35%;
 align-items: center;
-flex: 0.5;
 min-width: 75px;
 background-color: #fff;
 color: #181818;
-border-radius: 30px;
-padding-top: 10px;
+padding-top: 2px;
 
 & input{
-border: none;
-width: 100%;
+border:none;
+width: 93%;
 }
 
 `
@@ -49,5 +46,11 @@ align-items: center;
 }
 
 `
+const Tittle = styled.h4`
+    color:white;
+    margin-left:1%;
 
-export {BodyContainer, HeaderContainer, HeaderLeft, HeaderRight}
+`
+
+
+export {BodyContainer, HeaderContainer, HeaderLeft, HeaderRight,Tittle}

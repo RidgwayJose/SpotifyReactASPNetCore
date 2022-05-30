@@ -13,10 +13,10 @@ const RecienteEsc = () => {
     
 
     const showData = async () => {
-        const response = await fetch('home/index3')
+        const response = await fetch('home/index2')
         const data = await response.json()
         setUsers(data)
-        console.log(fetch('home/index3'))
+        console.log(fetch('home/index2'))
         console.log(data)
     }
     
@@ -27,30 +27,27 @@ const RecienteEsc = () => {
     
 
     return (
-    <Flex>
-        {users.map((user) => (
-    
-    <DIV2 key={user.id}>
-            
-                <CardActionArea>
-                    <CardMedia
-                    component="img"
-                    image={user.ImageUrl}
-                    alt="green iguana"
-                    />
-                    <CardContent>
-                    <Typography gutterBottom variant="h6" component="div">
-                        {user.Name}
-                    </Typography>
-                    <Typography variant="h6" color="#878787">
-                        {user.Artists}
-                    </Typography>
-                    </CardContent>
-                </CardActionArea>
-            
-    </DIV2>
-    ))}
-    </Flex>
+        <div>
+        <table className='table table-striped table-hover mt-5 shadow-lg'>
+            <thead>
+                <tr className='bg-curso text-white'>
+                    <th>NAME</th>
+                    <th>ARTISTS</th>
+                    <th>DATE</th>
+                    <th>IMAGE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {users.map((user) => (
+                    <tr key={user.id}>
+                        <td>{user.Name}</td>
+                        <td>{user.Descrition}</td>
+                        <td><img src={user.ImageUrl} /></td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    </div>
     )
    
 }

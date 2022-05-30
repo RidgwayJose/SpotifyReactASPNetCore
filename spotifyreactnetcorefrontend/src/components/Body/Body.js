@@ -1,62 +1,130 @@
 import Header from './Header'
-import { BodyContainer } from './Styles'
+import { BodyContainer,Tittle } from './Styles'
 import {useState, useEffect} from 'react'
 import * as React from 'react';
+import {Flex,DIV2} from "../extrasp/styled"
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
-
+import { useTabPanel } from '@mui/base';
+//canciones recientemente escuchadas
 const Body = () => {
   const [users, setUsers] = useState([])
-    //const [search, setSearch] = useState("")
-
-    //funcion para traer los datos de la Api
-
     const showData = async () => {
         const response = await fetch('home/index3')
         const data = await response.json()
-        setUsers(data)
+        const data2= data.slice(0,5)
+        setUsers(data2)
+        
+        console.log("holu",data2)
         console.log(fetch('home/index3'))
-        console.log(data)
+        console.log("1",data)
     }
-    //showData() => {Bucle de datos}
     
-    //Metodo de filtrado
-
-    //funcion de busqueda
     useEffect(() => {
         showData()
     }, [])
 
-    //renderizamos la vista
+//Ultimos Lanzamientos
+const [ults, setUlts] = useState([])
 
+    const showUlt = async () => {
+        const response = await fetch('home/Index')
+        const data = await response.json()
+        setUlts(data)
+        console.log(fetch('home/index'))
+        console.log("p",data)
+    }
+    
+    useEffect(() => {
+        showUlt()
+    }, [])
+
+//Artistas que sigues
+const [FollowArts, setFollowArts] = useState([])
+
+    const showFollow = async () => {
+        const response = await fetch('home/FollowedArtists')
+        const data = await response.json()
+        setFollowArts(data)
+        console.log(fetch('home/index'))
+        console.log("p",data)
+    }
+    
+    useEffect(() => {
+        showFollow()
+    }, [])
+
+
+
+    
   return (
     <BodyContainer>
         <Header/>
-        <div>
-            <table className='table table-striped table-hover mt-5 shadow-lg'>
-                <thead>
-                    <tr className='bg-curso text-white'>
-                        <th>Nombre</th>
-                        <th>Artista</th>
-                        <th>Album</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.map((user) => (
-                        <tr key={user.id}>
-                            <td>{user.Name}</td>
-                            <td>{user.Artists}</td>
-                            <td>{user.Album}</td>
-                            <td><img src={user.ImageUrl} /></td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+        <Tittle>Escuchado Recientemente</Tittle>
+        <Flex>
+        {users.map((user) => (
+    
+            <DIV2 key={user.id}>
+            
+                <CardActionArea>
+                    <CardMedia
+                    component="img"
+                    image={user.ImageUrl}
+                    />
+                    <CardContent>
+                    <div>
+                        <Typography gutterBottom variant="h10" component="div" scrollamount="0" text-aling="center">{user.Name.toString().substring(0,20)}...</Typography>
+                        <Typography variant="h8" color="#878787">{user.Artists.toString().substring(0,20)}...</Typography>
+                    </div>
+                    </CardContent>
+                </CardActionArea>
+            
+            </DIV2>
+            ))}
+        </Flex>
+        
+        <Tittle>Ultimos Lanzamientos</Tittle>
+        <Flex>
+        {ults.map((ult) => (
+            <DIV2 key={ult.id}>
+                <CardActionArea>
+                    <CardMedia
+                        component="img"
+                        image={ult.ImageUrl}
+                        />
+                    <CardContent>
+                        <div>
+                            <Typography gutterBottom variant="h10" component="div" scrollamount="0" text-aling="center">{ult.Name.toString().substring(0,20)}...</Typography>
+                            <Typography variant="h8" color="#878787">{ult.Artists.toString().substring(0,20)}...</Typography>
+                        </div>
+                    </CardContent>
+                </CardActionArea>
+            </DIV2>
+            ))}
+        </Flex>
+
+        <Tittle>Artistas Que Sigues</Tittle>
+            <Flex>
+            {FollowArts.map((Follow) => (
+                <DIV2 key={Follow.id}>
+                    <CardActionArea>
+                        <CardMedia
+                            component="img"
+                            image={Follow.ImageUrl}
+                            />
+                        <CardContent>
+                            <div>
+                                <Typography gutterBottom variant="h10" component="div" scrollamount="0" text-aling="center">{Follow.Name.toString().substring(0,20)}...</Typography>
+                                <Typography variant="h8" color="#878787">{Follow.Name.toString().substring(0,20)}...</Typography>
+                            </div>
+                        </CardContent>
+                    </CardActionArea>
+                </DIV2>
+                ))}
+            </Flex>
     </BodyContainer>
   )
 }
