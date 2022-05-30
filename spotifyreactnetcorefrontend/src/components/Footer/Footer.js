@@ -19,7 +19,7 @@ const Footer = () => {
     //funcion para traer los datos de la Api
 
     const showData2 = async () => {
-        const response = await fetch('home/index4')
+        const response = await fetch('home/CurrentlyPlayingTrack')
         const data = await response.json()
         setTracks(data)
     }

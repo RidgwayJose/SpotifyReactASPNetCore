@@ -13,13 +13,13 @@ import { useTabPanel } from '@mui/base';
 const Body = () => {
   const [users, setUsers] = useState([])
     const showData = async () => {
-        const response = await fetch('home/index3')
+        const response = await fetch('home/RecentlyPlayedTracks')
         const data = await response.json()
         const data2= data.slice(0,5)
         setUsers(data2)
         
         console.log("holu",data2)
-        console.log(fetch('home/index3'))
+        console.log(fetch('home/RecentlyPlayedTracks'))
         console.log("1",data)
     }
     
@@ -31,10 +31,10 @@ const Body = () => {
 const [ults, setUlts] = useState([])
 
     const showUlt = async () => {
-        const response = await fetch('home/Index')
+        const response = await fetch('home/NewReleases')
         const data = await response.json()
         setUlts(data)
-        console.log(fetch('home/index'))
+        console.log(fetch('home/NewReleases'))
         console.log("p",data)
     }
     
@@ -98,7 +98,7 @@ const [FollowArts, setFollowArts] = useState([])
                     <CardContent>
                         <div>
                             <Typography gutterBottom variant="h10" component="div" scrollamount="0" text-aling="center">{ult.Name.toString().substring(0,20)}...</Typography>
-                            <Typography variant="h8" color="#878787">{ult.Artists.toString().substring(0,20)}...</Typography>
+                            <Typography variant="h8" color="#878787">{ult.Artists.toString().substring(0,20)}</Typography>
                         </div>
                     </CardContent>
                 </CardActionArea>
@@ -117,8 +117,8 @@ const [FollowArts, setFollowArts] = useState([])
                             />
                         <CardContent>
                             <div>
-                                <Typography gutterBottom variant="h10" component="div" scrollamount="0" text-aling="center">{Follow.Name.toString().substring(0,20)}...</Typography>
-                                <Typography variant="h8" color="#878787">{Follow.Name.toString().substring(0,20)}...</Typography>
+                                <Typography gutterBottom variant="h10" component="div" scrollamount="0" text-aling="center">{Follow.Name}</Typography>
+                                <Typography variant="h8" color="#878787">{Follow.Followers}</Typography>
                             </div>
                         </CardContent>
                     </CardActionArea>
