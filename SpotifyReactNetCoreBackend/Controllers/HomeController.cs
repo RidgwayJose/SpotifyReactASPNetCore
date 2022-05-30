@@ -100,10 +100,18 @@ namespace SpotifyReactNetCoreBackend.Controllers
         }
         public async Task<IActionResult> Index4()
         {
-            var newCurrentlyPlayingTrack = await GetCurrentlyPlayingTrack();
-            string jsonString = JsonSerializer.Serialize(newCurrentlyPlayingTrack);
-            Console.WriteLine("repitomusicaactual");
-            return Ok(jsonString);
+            try
+            {
+                var newCurrentlyPlayingTrack = await GetCurrentlyPlayingTrack();
+                string jsonString = JsonSerializer.Serialize(newCurrentlyPlayingTrack);
+                Console.WriteLine("repitomusicaactual");
+                return Ok(jsonString);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex);
+            }
+            return SignOut();
         }
 
        
