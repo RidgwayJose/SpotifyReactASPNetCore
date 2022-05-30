@@ -9,5 +9,7 @@ namespace SpotifyReactNetCoreBackend.Models
     {
         public string Name { get; set; }
         public string ImageUrl { get; set; }
+        public int Followers { get; set; }
+        public int Popularity { get; set; }
     }
 }

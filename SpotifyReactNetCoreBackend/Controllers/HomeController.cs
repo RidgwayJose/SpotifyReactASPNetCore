@@ -78,7 +78,7 @@ namespace SpotifyReactNetCoreBackend.Controllers
             return Ok(jsonString);
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> NewReleases()
         {
             var newReleases = await _spotifyService.GetNewReleases("PE", 10, SaveToken);
             string jsonString = JsonSerializer.Serialize(newReleases);
@@ -91,20 +91,20 @@ namespace SpotifyReactNetCoreBackend.Controllers
             return Ok(jsonString);
         }
 
-        public async Task<IActionResult> Index2()
+        public async Task<IActionResult> UserPlaylist()
         {
             var newUserPlaylist = await _spotifyService.GetUserPlaylist(SaveToken);
             string jsonString = JsonSerializer.Serialize(newUserPlaylist);
             return Ok(jsonString);
         }
 
-        public async Task<IActionResult> Index3()
+        public async Task<IActionResult> RecentlyPlayedTracks()
         {
             var newRecentlyPlayedTracks = await _spotifyService.GetRecentlyPlayedTracks(SaveToken);
             string jsonString = JsonSerializer.Serialize(newRecentlyPlayedTracks);
             return Ok(jsonString);
         }
-        public async Task<IActionResult> Index4()
+        public async Task<IActionResult> CurrentlyPlayingTrack()
         {
             try
             {

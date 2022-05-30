@@ -159,7 +159,9 @@ namespace SpotifyReactNetCoreBackend.Services
             return responseObject?.artists?.items.Select(i => new FollowedArtists
             {
                 Name = i.name,
-                ImageUrl = i.images.FirstOrDefault().url
+                ImageUrl = i.images.FirstOrDefault().url,
+                Followers  = i.followers.total,
+                Popularity = i.popularity
             });
         }
     }
