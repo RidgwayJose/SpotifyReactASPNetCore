@@ -21,7 +21,8 @@ position:sticky;
   }
 `
 const Playlist = styled.div`
-margin: 5px 10px;
+margin-left:5%;
+margin-top:2%;
 
 `
 const Choices = styled.div`
@@ -40,4 +41,13 @@ transition: 300ms color ease-in;
 
 `
 
-export {SidebarContainer, Playlist, Choices}
+const DIV = styled.div`
+  & a {
+    color: #9E9E9E;
+    text-decoration: none;
+    margin-left:5%;
+    font-family: Courier New;
+  }
+`
+
+export {SidebarContainer, Playlist, Choices,DIV}
