@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import {Flex,DIV2} from "./styled"
+import {Flex,DIV,TABLE,Sep} from "./styled"
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -9,45 +9,67 @@ import { CardActionArea } from '@mui/material';
 
 const RecienteEsc = () => {
     
-    const [users, setUsers] = useState([])
-    
-
-    const showData = async () => {
-        const response = await fetch('home/index2')
+    //canciones recientemente escuchadas
+    const [recs, setRecs] = useState([])
+    const showRec = async () => {
+        const response = await fetch('home/RecentlyPlayedTracks')
         const data = await response.json()
-        setUsers(data)
-        console.log(fetch('home/index2'))
-        console.log(data)
+        setRecs(data)
     }
     
     useEffect(() => {
-        showData()
+        showRec()
     }, [])
 
+    //funcion para traer los datos de la Api
+
+    //Usar playlist
+  const [playlists, setPlaylists] = useState([])
+
+  const showPlay = async () => {
+      const response = await fetch('home/UserPlaylist')
+      const data = await response.json()
+      setPlaylists(data)
+      console.log("jdjg",data)
+  }
+  
+  useEffect(() => {
+      showPlay()
+  }, [])
     
 
     return (
-        <div>
-        <table className='table table-striped table-hover mt-5 shadow-lg'>
+        
+    <DIV>
+        {playlists.map((title) => (
+        <Sep>
+            <img src={title.ImageUrl} align="left"></img>
+            <p>{title.Name}</p>
+        </Sep>
+        ))}
+        
+        <TABLE>
+        <table  class='table'>
             <thead>
                 <tr className='bg-curso text-white'>
                     <th>NAME</th>
                     <th>ARTISTS</th>
-                    <th>DATE</th>
                     <th>IMAGE</th>
                 </tr>
             </thead>
             <tbody>
-                {users.map((user) => (
-                    <tr key={user.id}>
-                        <td>{user.Name}</td>
-                        <td>{user.Descrition}</td>
-                        <td><img src={user.ImageUrl} /></td>
-                    </tr>
-                ))}
+            {recs.map((user) => (
+                <tr key={user.id}>
+                    <td>{user.Name}</td>
+                    <td>{user.Artists}</td>
+                    <td><img src={user.ImageUrl} /></td>
+                </tr>
+                 ))}
             </tbody>
         </table>
-    </div>
+        </TABLE>
+    </DIV>
+    
     )
    
 }

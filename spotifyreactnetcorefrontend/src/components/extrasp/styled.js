@@ -27,5 +27,37 @@ color: white;
     max-height:150px;
 }
 `
+const DIV = styled.div`
+background-color: #121212;
+text-aling:center;
+border:4px solid green;
+`
 
-export {Flex,DIV2}
+
+const TABLE = styled.div`
+text-aling:center;
+background-color: ;
+& img {
+    width:100px;
+    
+}
+& td {
+    border:1px solid #121212;
+    border-bottom:1px solid blue;
+    color:white;
+    
+}
+`
+const Sep = styled.div`
+border: 4px solid blue;
+margin:3%;
+color: white;
+& p {
+    margin-left: 5%;
+}
+& img{
+    width:20%;
+}
+`
+
+export {Flex,DIV2,DIV,TABLE,Sep}

@@ -92,7 +92,7 @@ namespace SpotifyReactNetCoreBackend.Controllers
         }
 
         public async Task<IActionResult> UserPlaylist()
-        {
+        {   
             var newUserPlaylist = await _spotifyService.GetUserPlaylist(SaveToken);
             string jsonString = JsonSerializer.Serialize(newUserPlaylist);
             return Ok(jsonString);

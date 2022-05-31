@@ -11,12 +11,15 @@ import { CardActionArea } from '@mui/material';
 import { useTabPanel } from '@mui/base';
 //canciones recientemente escuchadas
 const Body = () => {
-  const [users, setUsers] = useState([])
+  const [rect, setRect] = useState([])
+    //const [search, setSearch] = useState("")
+
+    //funcion para traer los datos de la Api
     const showData = async () => {
         const response = await fetch('home/RecentlyPlayedTracks')
         const data = await response.json()
         const data2= data.slice(0,5)
-        setUsers(data2)
+        setRect(data2)
         
         console.log("holu",data2)
         console.log(fetch('home/RecentlyPlayedTracks'))
@@ -49,7 +52,6 @@ const [FollowArts, setFollowArts] = useState([])
         const response = await fetch('home/FollowedArtists')
         const data = await response.json()
         setFollowArts(data)
-        console.log(fetch('home/index'))
         console.log("p",data)
     }
     
@@ -65,19 +67,19 @@ const [FollowArts, setFollowArts] = useState([])
         <Header/>
         <Tittle>Escuchado Recientemente</Tittle>
         <Flex>
-        {users.map((user) => (
+        {rect.map((track) => (
     
-            <DIV2 key={user.id}>
+            <DIV2 key={track.id}>
             
                 <CardActionArea>
                     <CardMedia
                     component="img"
-                    image={user.ImageUrl}
+                    image={track.ImageUrl}
                     />
                     <CardContent>
                     <div>
-                        <Typography gutterBottom variant="h10" component="div" scrollamount="0" text-aling="center">{user.Name.toString().substring(0,20)}...</Typography>
-                        <Typography variant="h8" color="#878787">{user.Artists.toString().substring(0,20)}...</Typography>
+                        <Typography gutterBottom variant="h10" component="div" scrollamount="0" text-aling="center">{track.Name.toString().substring(0,20)}...</Typography>
+                        <Typography variant="h8" color="#878787">{track.Artists.toString().substring(0,20)}...</Typography>
                     </div>
                     </CardContent>
                 </CardActionArea>
