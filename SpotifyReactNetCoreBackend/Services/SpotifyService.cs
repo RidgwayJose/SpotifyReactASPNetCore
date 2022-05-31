@@ -20,31 +20,6 @@ namespace SpotifyReactNetCoreBackend.Services
             _httpClient = httpClient;
 
         }
-        /*
-        public async Task<IEnumerable<Release>> GetNewReleases(string countryCode, int limit, string accessToken)
-        {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            var response = await _httpClient.GetAsync($"browse/new-releases?country={countryCode}&limit={limit}");
-
-            response.EnsureSuccessStatusCode();
-
-            using var responseStream = await response.Content.ReadAsStreamAsync();
-
-
-            var responseObject = await JsonSerializer.DeserializeAsync<GetNewReleaseResult>(responseStream);
-            var items = responseObject.albums.items;
-            return responseObject?.albums?.items.Select(i => new Release
-            {
-                Name = i.name,
-                Date = i.release_date,
-                ImageUrl = i.images.FirstOrDefault().url,
-                Link = i.external_urls.spotify,
-                Artists = string.Join(",", i.artists.Select(i => i.name))
-            }
-            );
-        }
-        */
 
         public async Task<IEnumerable<Release>> GetNewReleases(string countryCode, int limit, string accessToken)
         {
@@ -96,7 +71,8 @@ namespace SpotifyReactNetCoreBackend.Services
                 Name = i.name,
                 URL = i.external_urls.spotify,
                 ImageUrl = i.images.FirstOrDefault().url,
-                Description = i.description
+                Description = i.description,
+                PlaylistID = i.id
             }
             );
         }
@@ -162,6 +138,27 @@ namespace SpotifyReactNetCoreBackend.Services
                 ImageUrl = i.images.FirstOrDefault().url,
                 Followers  = i.followers.total,
                 Popularity = i.popularity
+            });
+        }
+
+        
+        public async Task<IEnumerable<PlaylistItems>> GetPlaylistTracks(string accessToken, string idplaylist)
+        //image,musica, artista
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"playlists/{idplaylist}/tracks");
+
+            request.Headers.Add("Authorization", "Bearer " + accessToken);
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            var responseStream = await response.Content.ReadAsStringAsync();
+            var responseObject = JsonSerializer.Deserialize<GetPlaylistItemsResult>(responseStream);
+            var item = responseObject.items;
+            return responseObject?.items.Select(i => new PlaylistItems
+            {
+                NameTrack = i.track.name,
+                ImageUrl = i.track.album.images.FirstOrDefault().url,
+                ArtistTrack = string.Join(",", i.track.artists.Select(i => i.name)),
+                AlbumTrack = i.track.album.name
             });
         }
     }

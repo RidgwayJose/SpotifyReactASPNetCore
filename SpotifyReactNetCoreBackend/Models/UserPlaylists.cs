@@ -11,5 +11,6 @@ namespace SpotifyReactNetCoreBackend.Models
         public string URL { get; set; }
         public string ImageUrl { get; set; }
         public string Description { get; set; }
+        public string PlaylistID { get; set; }
     }
 }

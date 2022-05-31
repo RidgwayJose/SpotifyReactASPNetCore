@@ -60,7 +60,7 @@ namespace SpotifyReactNetCoreBackend.Controllers
                 $"&state={state}" +
                 $"&scope={string.Join("%20", scopes)}" +
                 $"&show_dialog=true"));
-            
+
             string strJson = JsonSerializer.Serialize(loginURL);
             return strJson;
         }
@@ -124,6 +124,15 @@ namespace SpotifyReactNetCoreBackend.Controllers
         {
             var newFollowedArtist = await _spotifyService.GetFollowedArtists(SaveToken, 6);
             string jsonString = JsonSerializer.Serialize(newFollowedArtist);
+            return Ok(jsonString);
+        }
+
+        //2GyMzatj1Tpz3h7IxquXoH
+        [Route("{id}")]
+        public async Task<IActionResult> PlaylistTracks(string id)
+        {
+            var newPlaylistTracks = await _spotifyService.GetPlaylistTracks(SaveToken, id);
+            string jsonString = JsonSerializer.Serialize(newPlaylistTracks);
             return Ok(jsonString);
         }
 

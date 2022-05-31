@@ -14,5 +14,6 @@ namespace SpotifyReactNetCoreBackend.Services
         Task<IEnumerable<RecentlyPlayedTracks>> GetRecentlyPlayedTracks(string accessToken);
         Task<CurrentlyPlayingTrack> GetCurrentlyPlayingTrack(string accessToken);
         Task<IEnumerable<FollowedArtists>> GetFollowedArtists(string accessToken, int limit);
+        Task<IEnumerable<PlaylistItems>> GetPlaylistTracks(string accessToken, string idplaylist);
     }
 }
