@@ -9,11 +9,12 @@ import { CardActionArea } from '@mui/material';
 
 const RecienteEsc = () => {
     
-    //canciones recientemente escuchadas
+    
     const [recs, setRecs] = useState([])
     const showRec = async () => {
-        const response = await fetch('home/RecentlyPlayedTracks')
+        const response = await fetch('home/PlaylistTracks/5IpiouPQ6p0odjK4JUG6X1')
         const data = await response.json()
+        console.log("uwyur",data)
         setRecs(data)
     }
     
@@ -36,6 +37,10 @@ const RecienteEsc = () => {
   useEffect(() => {
       showPlay()
   }, [])
+
+
+
+  
     
 
     return (
@@ -44,7 +49,7 @@ const RecienteEsc = () => {
         {playlists.map((title) => (
         <Sep>
             <img src={title.ImageUrl} align="left"></img>
-            <p>{title.Name}</p>
+            <h1>{title.Name}</h1>
         </Sep>
         ))}
         
@@ -60,8 +65,8 @@ const RecienteEsc = () => {
             <tbody>
             {recs.map((user) => (
                 <tr key={user.id}>
-                    <td>{user.Name}</td>
-                    <td>{user.Artists}</td>
+                    <td>{user.NameTrack}</td>
+                    <td>{user.ArtistTrack}</td>
                     <td><img src={user.ImageUrl} /></td>
                 </tr>
                  ))}

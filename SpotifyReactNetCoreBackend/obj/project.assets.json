@@ -208,24 +208,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\maria\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\User\\Documents\\ReactASPNETCORE\\SpotifyReactNetCore\\SpotifyReactNetCoreBackend\\SpotifyReactNetCoreBackend.csproj",
+      "projectUniqueName": "C:\\Users\\maria\\OneDrive\\Escritorio\\Ac.D\\la carpeta\\web api spotify react\\SpotifyReactASPNetCore\\SpotifyReactNetCoreBackend\\SpotifyReactNetCoreBackend.csproj",
       "projectName": "SpotifyReactNetCoreBackend",
-      "projectPath": "E:\\User\\Documents\\ReactASPNETCORE\\SpotifyReactNetCore\\SpotifyReactNetCoreBackend\\SpotifyReactNetCoreBackend.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "E:\\User\\Documents\\ReactASPNETCORE\\SpotifyReactNetCore\\SpotifyReactNetCoreBackend\\obj\\",
+      "projectPath": "C:\\Users\\maria\\OneDrive\\Escritorio\\Ac.D\\la carpeta\\web api spotify react\\SpotifyReactASPNetCore\\SpotifyReactNetCoreBackend\\SpotifyReactNetCoreBackend.csproj",
+      "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\maria\\OneDrive\\Escritorio\\Ac.D\\la carpeta\\web api spotify react\\SpotifyReactASPNetCore\\SpotifyReactNetCoreBackend\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\maria\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -274,7 +269,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }

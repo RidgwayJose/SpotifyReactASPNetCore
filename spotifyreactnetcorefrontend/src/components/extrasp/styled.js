@@ -30,7 +30,6 @@ color: white;
 const DIV = styled.div`
 background-color: #121212;
 text-aling:center;
-border:4px solid green;
 `
 
 
@@ -43,17 +42,19 @@ background-color: ;
 }
 & td {
     border:1px solid #121212;
-    border-bottom:1px solid blue;
+    border-bottom:1px solid #2D2D2D;
     color:white;
     
 }
 `
 const Sep = styled.div`
-border: 4px solid blue;
-margin:3%;
+background-color: #0E0E0E;
+padding:2%;
+height:350px;
 color: white;
-& p {
+& h1 {
     margin-left: 5%;
+    padding:7%;
 }
 & img{
     width:20%;

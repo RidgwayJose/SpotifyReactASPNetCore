@@ -21,6 +21,7 @@ const Sidebar = () => {
     }, [])
 
 
+
   return (
     <SidebarContainer>
       
@@ -32,7 +33,7 @@ const Sidebar = () => {
         <Playlist>PlayLists</Playlist>
         <hr />
         {playlists.map((title) => (
-          <DIV><a href="">{title.Name}</a></DIV>
+          <DIV><a href="/">{title.Name}</a></DIV>
         ))}
       
     </SidebarContainer>

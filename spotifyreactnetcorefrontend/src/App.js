@@ -42,7 +42,7 @@ function App() {
                 <Route path = '/callback' element={<AuthRoute/>}/>
                 <Route path = '/player' element={<PlayerRoute />}/>
                 <Route path = '/index' element={<IndexRoute />} />
-                <Route path = '/hola' element={<RecienteRoute/>}/>
+                <Route path = '/playlist' element={<RecienteRoute/>}/>
             </Routes>
         </div>
     ); 
