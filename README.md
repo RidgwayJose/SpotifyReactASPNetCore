@@ -21,9 +21,18 @@ Sigue los pasos de **Authorization Code Flow** (0Auth) junto con el login de Spo
 ![image](https://user-images.githubusercontent.com/83036818/179426794-ce14a8f3-61cf-4c2d-bad6-e62f67088160.png)
 
 **5.-** Desplegar la aplicacion web.
+
 VS Code -> En terminal
+
     ../SpotifyReactNetCoreBackend => dotnet run
+    
     ../spotifyreactnetcorefrontend => npm start
+ 
+ 
 Visual Studio 2022 -> En el explorador de soluciones:
-En la Solución, click derecho, Propiedades. Proyecto de inicio -> Seleccionar "Proyecto de Inicio Multiples" -> Iniciar en ambas opciones -> Aceptar.
-Depurar -> Iniciar Depuración.
+
+    En la Solución, click derecho, Propiedades.
+
+    Proyecto de inicio -> Seleccionar "Proyecto de Inicio Multiples" -> Iniciar en ambas opciones -> Aceptar.
+
+    Depurar -> Iniciar Depuración.
